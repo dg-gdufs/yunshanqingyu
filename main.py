@@ -4,12 +4,12 @@ import os
 import fire
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-def run(db, days_ago):
+def run(db='01', days_ago='3'):
     command1 = 'scrapy crawl {} -a db={} -a days_ago={} -a start_page=0'
     command2 = 'scrapy crawl {} -a db={}'
     try:
         with open('config/tieba_spider.txt', 'r', encoding='utf-8') as f:
-            name = f.readline()
+            name = f.readline().replace('\n','')
             command_ = command1.format(name, db, days_ago)
             print(command_)
             os.system(command_)
