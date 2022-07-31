@@ -17,6 +17,14 @@ class WeiboSpider(BaseSpider):
     days_ago = 3
     url = 'https://m.weibo.cn/api/container/getIndex?containerid={}&since_id={}'
     url2 = 'https://m.weibo.cn/comments/hotflow?id={}&mid={}'
+    custom_settings = {
+        'DOWNLOADER_MIDDLEWARES': {
+            'crawler.middlewares.request_download_middleware.RequestDownloaderMiddleware': 542,
+            'crawler.middlewares.proxy_download_middleware.ProxyDownloaderMiddleware': 544,
+            # 'crawler.middlewares.ipidea_proxy_download_middleware.IpideaProxyDownloaderMiddleware': 544,
+            'crawler.middlewares.reply_download_middleware.ReplyDownloaderMiddleware': 551,
+        }
+    }
 
     def start_requests(self):
         yield Request(self.url.format(self.containerid, ''))
