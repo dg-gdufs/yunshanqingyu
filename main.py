@@ -23,6 +23,7 @@ def run(db, days_ago):
         
 def main(db, days_ago):
     sched = BlockingScheduler()
+    run(db, days_ago)
     sched.add_job(run, 'cron', hour=0, minute=10, args=[db, days_ago])
     sched.start()
     
