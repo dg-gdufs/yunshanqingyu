@@ -9,15 +9,17 @@ def run(db='01', days_ago='3'):
     command2 = 'scrapy crawl {} -a db={}'
     try:
         with open('config/tieba_spider.txt', 'r', encoding='utf-8') as f:
-            name = f.readline().replace('\n','')
-            command_ = command1.format(name, db, days_ago)
-            print(command_)
-            os.system(command_)
-        # with open('config/weibo_spider.txt', 'r', encoding='utf-8') as f:
-            # name = f.readline().replace('\n','')
-            # command_ = command2.format(name, db)
-            # print(command_)
-            # os.system(command_)
+            for i in f.readlines():
+                name = i.replace('\n','')
+                command_ = command1.format(name, db, days_ago)
+                print(command_)
+                os.system(command_)
+        with open('config/weibo_spider.txt', 'r', encoding='utf-8') as f:
+            for i in f.readlines():
+                name = i.replace('\n','')
+                command_ = command2.format(name, db)
+                print(command_)
+                os.system(command_)
     except Exception as e:
         print("主进程出错 ==> {}".format(e))
         
