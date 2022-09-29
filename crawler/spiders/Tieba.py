@@ -51,7 +51,7 @@ class TiebaSpider(BaseSpider):
                 yield Request(self.search_url.format(self.kw, i), meta={'qw': i})
 
     def parse(self, response):
-        if int(time.time()) - self.last_clean_ip_time > 20:
+        if int(time.time()) - self.last_clean_ip_time > 60:
             yield Request(IPIDEA_API, callback=self.parse_proxy)
 
         if response.url.startswith('https://wappass.baidu.com'):
