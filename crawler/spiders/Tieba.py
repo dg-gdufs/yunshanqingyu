@@ -7,6 +7,7 @@ LastEditors: Renhetian
 LastEditTime: 2022-03-02 14:02:36
 '''
 
+from config.host_config import IPIDEA_API
 from time import time
 from crawler.spiders import BaseSpider
 from crawler.items import *
@@ -28,6 +29,9 @@ class TiebaSpider(BaseSpider):
     tieba_id = 0
     days_ago = 1
     start_page = 0
+    now_proxy = ""
+    last_clean_ip_time = 0
+
     url = 'https://tieba.baidu.com/f?kw={}&ie=utf-8&pn={}'
     search_url = 'https://tieba.baidu.com/f/search/res?ie=utf-8&isnew=1&kw={}&qw={}&un=&rn=10&pn=1&sd=&ed=&sm=1&only_thread=1'
     custom_settings = {
@@ -40,12 +44,16 @@ class TiebaSpider(BaseSpider):
 
     def start_requests(self):
         start_pn = int(self.start_page) * 50
+        yield Request(IPIDEA_API, callback=self.parse_proxy)
         yield Request(self.url.format(self.kw, start_pn), meta={'pn': start_pn})
         if self.qw:
             for i in self.qw:
                 yield Request(self.search_url.format(self.kw, i), meta={'qw': i})
 
     def parse(self, response):
+        if int(time.time()) - self.last_clean_ip_time > 20:
+            yield Request(IPIDEA_API, callback=self.parse_proxy)
+
         if response.url.startswith('https://wappass.baidu.com'):
             self.send_log(3, "网页被风控 ==> url:<{}>".format(response.url))
             return
@@ -189,6 +197,13 @@ class TiebaSpider(BaseSpider):
         next_url = html.xpath('//ul[@class="l_posts_num"]//a[contains(text(), "下一页")]/@href')
         if next_url:
             yield Request('https://tieba.baidu.com' + next_url[0], meta=response.meta, callback=self.parse_item)
+
+    def parse_proxy(self, response):
+        self.last_clean_ip_time = int(time.time())
+        ipList = response.text
+        pro = 'https://{}'.format(ipList.split('\r\n')[0])
+        self.send_log(1, "proxy已更新 ==> {}".format(pro))
+        self.now_proxy = pro
 
     def content_format(self, content):
         out1 = re.subn(r'<img.*?>', '', content)[0]

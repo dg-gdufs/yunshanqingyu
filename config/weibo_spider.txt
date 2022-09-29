@@ -1,3 +1,4 @@
+guangwaiweibo
 dongguanligongweibo
 foshankexuejishuweibo
 guangdongcaijingweibo
@@ -8,7 +9,6 @@ guangdongjishushifanweibo
 guangdongyaokeweibo
 guangdongyikeweibo
 guangdongzhongyiyaoweibo
-guangwaiweibo
 guangzhoumeishuweibo
 guangzhoutiyuweibo
 guangzhouweibo

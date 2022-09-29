@@ -1,3 +1,4 @@
+guangwaitieba
 dongguanligongtieba
 foshankexuejishutieba
 guangdongcaijingtieba
@@ -7,7 +8,6 @@ guangdongyaoketieba
 guangdongyiketieba
 guangdongzhongyiyaotieba
 guanggongtieba
-guangwaitieba
 guangzhoumeishutieba
 guangzhoutieba
 guangzhoutiyutieba

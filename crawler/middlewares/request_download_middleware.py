@@ -24,7 +24,7 @@ class RequestDownloaderMiddleware:
             if not request.meta:
                 request.meta = {}
             # url规范化
-            url = request.url.replace("http://",'https://')
+            # url = request.url.replace("http://",'https://')
             # 添加请求头
             spider.make_header(request)
             # 随机user-agent
